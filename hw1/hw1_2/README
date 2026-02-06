@@ -1,0 +1,17 @@
+These matlab/octave scripts will solve the 2D heat eqn under different 
+conditions, as prescribed in the driver script, "tst_h2d.m"
+and corresponding timestepping code, "heat2d.m"
+
+tst_h2d.m    - driver
+heat2d.m     - main 2D timestepper code
+hdr.m        - convenient plotting abbreviations
+
+To use this, simply run "tst_h2d" ... assuming that all 3 files 
+are in the working directory.
+
+You can edit "tst_h2d.m" to change spacing, timestep sizes, etc.
+
+Your tasks are to modify heat2d.m for each of the questions.
+(For code cleanliness, I suggest to _not_ put all changes into a single
+file, but it might be possible...)
+ 

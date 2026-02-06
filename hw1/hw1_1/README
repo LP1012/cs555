@@ -1,0 +1,19 @@
+These matlab/octave scripts will solve the 1D heat eqn under different 
+conditions, as prescribed in the driver script, "deb.m"
+
+ deb.m       - driver
+ eb.m        - run the unsteady heat eqn with Euler Backward
+ a_var.m     - set up the A matrix for variable (here, Chebyshev) grid spacing
+
+To use this, simply run "deb" ... assuming that all 3 files are in the working
+directory.
+
+You can edit "a_var.m" to change to uniform dx, if you so desire. 
+(Just uncomment the appropriate line near the top of the file.)
+
+Your task is to create a _new_ script, "cn.m" that will implement CN 
+timestepping instead of EB and then to test to verify that it yields
+the expected behavior, etc.
+
+
+
