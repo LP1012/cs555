@@ -21,7 +21,17 @@ lower =  1./hL(2:end);        lower = [lower; 0];
 % assemble sparse S and diagonal M
 n = length(main);
 S = spdiags([lower, main, upper], [-1 0 1], n, n);
-M = spdiags(1./hbar, 0, n, n);
+M = spdiags(1./hbar, 0, n, n); lower = [lower; 0];
 
 A = -M*S;
 
+% main and off-diagonals of implicit matrix 
+main = 1.0 + nu * dt ./ (1./hL + 1./hR);
+lower = -nu*dt/2.0./(hL(2:end));  lower = [lower; 0];
+upper = -nu * dt / 2.0 ./ (hR(1:end-1)); upper = [0; upper];
+
+% assemble
+n = length(main);
+intermediate = spdiags([lower, main, upper], [-1 0 1], n, n);
+M = spdiags(1./hbar, [-1 0 1], n, n); lower = [lower; 0];
+Imp = intermediate*M;
