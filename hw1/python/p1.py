@@ -67,9 +67,9 @@ def ic(index, x):
 length = 1
 nu = 0.2
 t_max = 1
-# nx = 1500
+# nx = 1500 # uncomment for final figures
 nx = 10
-n_timesteps = [25, 50, 100, 200, 400, 800]
+n_timesteps = [25, 50, 100, 200, 400, 800, 1600]
 time_stepper_index = 1
 ic_index = 1
 n_curves = 4
@@ -93,7 +93,7 @@ for time_steps in n_timesteps:
     plt.title(
         f"Solution to the 1D, time-dependent heat equation\ntime-stepper={time_stepper}, n_steps = {time_steps}"
     )
-    n_between_plots = np.floor(time_steps / (n_curves - 1))
+    n_between_plots = round(time_steps / (n_curves - 1))
     dt = t_max / time_steps
     u_prev = np.zeros(n)
     u_current = np.array([ic(ic_index, x) for x in xs[1:-1]])
@@ -103,7 +103,7 @@ for time_steps in n_timesteps:
         else:
             u_next = timeStep(u_current, u_prev, dt, A, nu, time_stepper)
         if t == time_steps - 1 or t % n_between_plots == 0:
-            plt.plot(xs[1:-1], u_next, label=f"t = {t}")
+            plt.plot(xs[1:-1], u_next, label=f"t = {t+1}")
 
         u_prev = u_current
         u_current = u_next
