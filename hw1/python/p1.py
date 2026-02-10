@@ -103,7 +103,9 @@ for time_steps in n_timesteps:
         else:
             u_next = timeStep(u_current, u_prev, dt, A, nu, time_stepper)
         if t == time_steps - 1 or t % n_between_plots == 0:
-            plt.plot(xs[1:-1], u_next, label=f"t = {t+1}")
+            prepend = np.insert(u_next, 0, 0)
+            u_plot = np.append(prepend, 0)
+            plt.plot(xs, u_plot, label=f"t = {t+1}", marker="o")
 
         u_prev = u_current
         u_current = u_next
