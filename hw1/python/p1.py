@@ -65,9 +65,10 @@ def ic(index, x):
 length = 1
 nu = 0.2
 t_max = 1
-nx = 1500
+# nx = 1500
+nx = 10
 n_timesteps = [25, 50, 100, 200, 400, 800]
-time_stepper_index = 1
+time_stepper_index = 0
 ic_index = 1
 n_curves = 4
 
@@ -80,10 +81,24 @@ xs, dx = np.linspace(0, length, nx, retstep=True)
 n = nx - 2  # homogeneous dirchlet conditions, so we don't need to solve for them
 A = create_space_fd_mat(n, dx)
 
-plt.figure()
+
 for time_steps in n_timesteps:
+    plt.figure()
+    plt.xlabel("x")
+    plt.ylabel("u(x)")
+    plt.title(
+        f"Solution to the 1D, time-dependent heat equation\ntime-stepper={time_stepper}, n_steps = {time_steps}"
+    )
+    n_between_plots = np.floor(time_steps / (n_curves - 1))
     dt = t_max / time_steps
     u_prev = np.zeros(n)
-    u_current = np.array([ic(ic_index, x) for x in xs])
+    u_current = np.array([ic(ic_index, x) for x in xs[1:-1]])
     for t in range(1, time_steps):
         u_next = timeStep(u_current, u_prev, dt, A, nu, time_stepper)
+        if t == time_steps - 1 or t % n_between_plots == 0:
+            plt.plot(xs[1:-1], u_next, label=f"t = {t}")
+
+        u_prev = u_current
+        u_current = u_next
+    plt.legend()
+    plt.savefig(f"p1_{time_stepper}_{time_steps}.png")
