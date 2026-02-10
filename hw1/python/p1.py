@@ -1,5 +1,9 @@
 import numpy as np
 import numpy.linalg
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+
+plt.style.use("rc-general.mplstyle")
 
 
 def create_space_fd_mat(n, dx):
@@ -9,7 +13,7 @@ def create_space_fd_mat(n, dx):
     return A * (1 / dx**2)
 
 
-def timeStep(u_prev1, dt, A, nu, time_stepper, u_prev2=None):
+def timeStep(u_prev1, u_prev2, dt, A, nu, time_stepper):
     match time_stepper:
         case "bdf1":
             return bdf1(u_prev1, dt, A, nu)
@@ -61,13 +65,25 @@ def ic(index, x):
 length = 1
 nu = 0.2
 t_max = 1
-nx = 100
-n_timesteps = [10, 100]
+nx = 1500
+n_timesteps = [25, 50, 100, 200, 400, 800]
 time_stepper_index = 1
 ic_index = 1
+n_curves = 4
 
 # begin code...
 time_steppers = ["bdf1", "bdf2", "cn"]
 time_stepper = time_steppers[time_stepper_index]
 
-dx = length / nx
+xs, dx = np.linspace(0, length, nx, retstep=True)
+
+n = nx - 2  # homogeneous dirchlet conditions, so we don't need to solve for them
+A = create_space_fd_mat(n, dx)
+
+plt.figure()
+for time_steps in n_timesteps:
+    dt = t_max / time_steps
+    u_prev = np.zeros(n)
+    u_current = np.array([ic(ic_index, x) for x in xs])
+    for t in range(1, time_steps):
+        u_next = timeStep(u_current, u_prev, dt, A, nu, time_stepper)
