@@ -61,7 +61,9 @@ def ic(index, x):
             raise ValueError(f"Index number passed not valid! index = {index}")
 
 
+# ----------------------------------------------------------
 # user-set parameters
+# ----------------------------------------------------------
 length = 1
 nu = 0.2
 t_max = 1
@@ -72,7 +74,9 @@ time_stepper_index = 1
 ic_index = 1
 n_curves = 4
 
+# ----------------------------------------------------------
 # begin code...
+# ----------------------------------------------------------
 time_steppers = ["bdf1", "bdf2", "cn"]
 time_stepper = time_steppers[time_stepper_index]
 
