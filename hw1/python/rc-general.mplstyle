@@ -1,0 +1,57 @@
+####################################
+# General / context = "paper"
+####################################
+figure.figsize        : 8, 6
+figure.dpi            : 300
+savefig.dpi           : 300
+
+####################################
+# Fonts (font="serif", font_scale=1.2)
+####################################
+font.family           : serif
+font.size             : 12
+axes.titlesize        : 14
+axes.labelsize        : 14
+xtick.labelsize       : 11
+ytick.labelsize       : 11
+legend.fontsize       : 11
+
+####################################
+# Lines
+####################################
+lines.linewidth       : 2.5
+lines.markersize      : 6
+
+####################################
+# Axes style ("ticks")
+####################################
+axes.linewidth        : 1.2
+axes.edgecolor        : black
+axes.grid             : False
+
+xtick.direction       : out
+ytick.direction       : out
+xtick.major.size      : 6
+ytick.major.size      : 6
+xtick.minor.size      : 3
+ytick.minor.size      : 3
+
+####################################
+# Colorblind-friendly palette
+####################################
+axes.prop_cycle : cycler('color', [
+    '#0173B2', '#DE8F05', '#029E73', '#D55E00',
+    '#CC78BC', '#CA9161', '#FBAFE4', '#949494'
+])
+
+####################################
+# Spines (sns.despine())
+####################################
+axes.spines.top       : False
+axes.spines.right     : False
+
+####################################
+# Misc
+####################################
+legend.frameon        : False
+
