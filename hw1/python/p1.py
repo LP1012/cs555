@@ -36,7 +36,7 @@ def bdf1(u_prev, dt, A, nu):
 
 def bdf2(u_prev1, u_prev2, dt, A, nu):
     n = len(u_prev1)
-    mat = 3 * np.eye(n) + 2 * dt * A
+    mat = 3 * np.eye(n) + 2 * nu * dt * A
     vec = 4 * u_prev1 - u_prev2
     u_next = np.linalg.solve(mat, vec)
     return u_next
@@ -68,7 +68,7 @@ t_max = 1
 # nx = 1500
 nx = 10
 n_timesteps = [25, 50, 100, 200, 400, 800]
-time_stepper_index = 0
+time_stepper_index = 1
 ic_index = 1
 n_curves = 4
 
@@ -94,7 +94,10 @@ for time_steps in n_timesteps:
     u_prev = np.zeros(n)
     u_current = np.array([ic(ic_index, x) for x in xs[1:-1]])
     for t in range(1, time_steps):
-        u_next = timeStep(u_current, u_prev, dt, A, nu, time_stepper)
+        if time_stepper == "bdf2" and t == 1:
+            u_next = timeStep(u_current, u_prev, dt, A, nu, "bdf1")
+        else:
+            u_next = timeStep(u_current, u_prev, dt, A, nu, time_stepper)
         if t == time_steps - 1 or t % n_between_plots == 0:
             plt.plot(xs[1:-1], u_next, label=f"t = {t}")
 
