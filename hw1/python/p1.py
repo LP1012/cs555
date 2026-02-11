@@ -20,9 +20,9 @@ def create_space_fd_mat(n, dx):
 def timeStep(u_prev1, u_prev2, dt, A, nu, time_stepper):
     match time_stepper:
         case "bfd1":
-            return bdf1(u_prev1, dt, A, nu)
+            return bfd1(u_prev1, dt, A, nu)
         case "bfd2":
-            return bdf2(u_prev1, u_prev2, dt, A, nu)
+            return bfd2(u_prev1, u_prev2, dt, A, nu)
         case "cn":
             return cn(u_prev1, dt, A, nu)
         case _:
@@ -31,14 +31,14 @@ def timeStep(u_prev1, u_prev2, dt, A, nu, time_stepper):
             )
 
 
-def bdf1(u_prev, dt, A, nu):
+def bfd1(u_prev, dt, A, nu):
     n = len(u_prev)
     mat = identity(n) + dt * nu * A
     u_next = spsolve(mat, u_prev)
     return u_next
 
 
-def bdf2(u_prev1, u_prev2, dt, A, nu):
+def bfd2(u_prev1, u_prev2, dt, A, nu):
     n = len(u_prev1)
     mat = 3 * identity(n) + 2 * nu * dt * A
     vec = 4 * u_prev1 - u_prev2
@@ -74,7 +74,7 @@ t_max = 1
 nx = 1500
 n_timesteps = [25, 50, 100, 200, 400, 800, 1600]
 
-time_stepper_index = 3  # 1=bfd1, 2=bfd2, 3=Crank-Nicholson
+time_stepper_index = 2  # 1=bfd1, 2=bfd2, 3=Crank-Nicholson
 ic_index = 1  # value of 1 or 2
 n_curves = 5  # number of curves in the plot
 
@@ -94,7 +94,9 @@ A = create_space_fd_mat(n, dx)
 lam_ex = -nu * np.pi**2 / length
 
 # initialize output table
-df = pd.DataFrame({"Time Differencing": [], "nx": [], "nt": [], "Ratio": []})
+df = pd.DataFrame(
+    {"Time Differencing": [], "nx": [], "nt": [], "Relative L2 Error": [], "Ratio": []}
+)
 
 prev_error = None
 for time_steps in n_timesteps:
@@ -112,9 +114,9 @@ for time_steps in n_timesteps:
     u_current = u_current[1:-1]
 
     for t in range(1, time_steps + 1):
-        if time_stepper == "bdf2" and t == 1:
+        if time_stepper == "bfd2" and t == 1:
             # bootstrap if necessary
-            u_next = timeStep(u_current, u_prev, dt, A, nu, "bdf1")
+            u_next = timeStep(u_current, u_prev, dt, A, nu, "bfd1")
         else:
             u_next = timeStep(u_current, u_prev, dt, A, nu, time_stepper)
         if t == time_steps or t % n_between_plots == 0:
@@ -128,9 +130,7 @@ for time_steps in n_timesteps:
         )
         error_vec = u_exact - u_next
 
-        el2 = np.sqrt(
-            np.dot(error_vec, error_vec) / np.dot(u_exact, u_exact)
-        )  # new values
+        el2 = np.sqrt(np.dot(error_vec, error_vec) / np.dot(u_exact, u_exact))
 
         u_prev = u_current
         u_current = u_next
@@ -146,6 +146,7 @@ for time_steps in n_timesteps:
         time_stepper,
         nx,
         time_steps,
+        el2,
         ratio if ratio is not None else "None",
     ]
     df.loc[len(df)] = new_table_row
