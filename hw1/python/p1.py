@@ -6,7 +6,7 @@ import pandas as pd
 from scipy.sparse import csr_matrix, csr_array
 from scipy.sparse.linalg import spsolve
 
-plt.style.use("rc-general.mplstyle")
+plt.style.use("matplotlib.rc")
 
 
 def create_space_fd_mat(n, dx):
@@ -111,7 +111,9 @@ for time_steps in n_timesteps:
     n_between_plots = round(time_steps / (n_curves - 1))
     dt = t_max / time_steps
     u_prev = np.zeros(n)
-    u_current = np.array([ic(ic_index, x) for x in xs[1:-1]])
+    u_current = np.array([ic(ic_index, x) for x in xs])
+    plt.plot(xs, u_current, label="t = 0")
+    u_current = u_current[1:-1]
 
     old_error = None
     new_error = None
@@ -124,7 +126,7 @@ for time_steps in n_timesteps:
         if t == time_steps - 1 or t % n_between_plots == 0:
             prepend = np.insert(u_next, 0, 0)
             u_plot = np.append(prepend, 0)
-            plt.plot(xs, u_plot, label=f"t = {t+1}", marker="o")
+            plt.plot(xs, u_plot, label=f"t = {t+1}")
 
         t_current = t * dt
         u_exact = np.array(
