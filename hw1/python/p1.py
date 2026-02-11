@@ -74,9 +74,9 @@ t_max = 1
 nx = 1500
 n_timesteps = [25, 50, 100, 200, 400, 800, 1600]
 
-time_stepper_index = 2  # 1=bdf1, 2=bdf2, 3=Crank-Nicholson
+time_stepper_index = 3  # 1=bdf1, 2=bdf2, 3=Crank-Nicholson
 ic_index = 1  # value of 1 or 2
-n_curves = 4  # number of curves in the plot
+n_curves = 5  # number of curves in the plot
 
 
 # ----------------------------------------------------------
@@ -94,11 +94,9 @@ A = create_space_fd_mat(n, dx)
 lam_ex = -nu * np.pi**2 / length
 
 # initialize output table
-df = pd.DataFrame(
-    {"Time Differencing": [], "nx": [], "nt": [], "Final Error": [], "Ratio": []}
-)
+df = pd.DataFrame({"Time Differencing": [], "nx": [], "nt": [], "Ratio": []})
 
-
+prev_error = None
 for time_steps in n_timesteps:
     plt.figure()
     plt.xlabel("x")
@@ -106,44 +104,50 @@ for time_steps in n_timesteps:
     plt.title(
         f"Solution to the 1D, time-dependent heat equation\ntime-stepper={time_stepper}, n_steps = {time_steps}"
     )
-    n_between_plots = round(time_steps / (n_curves - 1))
+    n_between_plots = round(time_steps / (n_curves))
     dt = t_max / time_steps
     u_prev = np.zeros(n)
     u_current = np.array([ic(ic_index, x) for x in xs])
     plt.plot(xs, u_current, label="t = 0")
     u_current = u_current[1:-1]
 
-    old_error = None
-    new_error = None
     for t in range(1, time_steps + 1):
         if time_stepper == "bdf2" and t == 1:
             # bootstrap if necessary
             u_next = timeStep(u_current, u_prev, dt, A, nu, "bdf1")
         else:
             u_next = timeStep(u_current, u_prev, dt, A, nu, time_stepper)
-        if t == time_steps - 1 or t % n_between_plots == 0:
+        if t == time_steps or t % n_between_plots == 0:
             prepend = np.insert(u_next, 0, 0)
             u_plot = np.append(prepend, 0)
-            plt.plot(xs, u_plot, label=f"t = {t+1}")
+            plt.plot(xs, u_plot, label=f"t = {t}")
 
         t_current = t * dt
         u_exact = np.array(
             [np.exp(t_current * lam_ex) * np.sin(np.pi * x) for x in xs[1:-1]]
         )
         error_vec = u_exact - u_next
-        # ratio = np.max(np.abs(error_vec)) / np.max(np.abs(u_exact))
 
-        old_error = new_error  # reassign
-        new_error = np.sqrt(
+        el2 = np.sqrt(
             np.dot(error_vec, error_vec) / np.dot(u_exact, u_exact)
         )  # new values
 
         u_prev = u_current
         u_current = u_next
 
-    ratio = old_error / new_error
+    if prev_error is not None:
+        ratio = prev_error / el2
+    else:
+        ratio = None  # first run has no convergence ratio
 
-    new_table_row = [time_stepper, nx, time_steps, new_error, ratio]
+    prev_error = el2
+
+    new_table_row = [
+        time_stepper,
+        nx,
+        time_steps,
+        ratio if ratio is not None else "None",
+    ]
     df.loc[len(df)] = new_table_row
 
     plt.legend()
