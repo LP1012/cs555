@@ -19,9 +19,9 @@ def create_space_fd_mat(n, dx):
 
 def timeStep(u_prev1, u_prev2, dt, A, nu, time_stepper):
     match time_stepper:
-        case "bdf1":
+        case "bfd1":
             return bdf1(u_prev1, dt, A, nu)
-        case "bdf2":
+        case "bfd2":
             return bdf2(u_prev1, u_prev2, dt, A, nu)
         case "cn":
             return cn(u_prev1, dt, A, nu)
@@ -74,7 +74,7 @@ t_max = 1
 nx = 1500
 n_timesteps = [25, 50, 100, 200, 400, 800, 1600]
 
-time_stepper_index = 3  # 1=bdf1, 2=bdf2, 3=Crank-Nicholson
+time_stepper_index = 3  # 1=bfd1, 2=bfd2, 3=Crank-Nicholson
 ic_index = 1  # value of 1 or 2
 n_curves = 5  # number of curves in the plot
 
@@ -85,7 +85,7 @@ n_curves = 5  # number of curves in the plot
 
 xs, dx = np.linspace(0, length, nx, retstep=True)
 
-time_steppers = ["bdf1", "bdf2", "cn"]
+time_steppers = ["bfd1", "bfd2", "cn"]
 time_stepper = time_steppers[time_stepper_index - 1]
 
 n = nx - 2  # homogeneous dirichlet conditions, so we don't need to solve for them
