@@ -71,26 +71,17 @@ t_max = 1
 # nx = 1500 # uncomment for final figures
 nx = 20
 n_timesteps = [25, 50, 100, 200, 400, 800, 1600]
-time_stepper_index = 1
+time_stepper_index = 0
 ic_index = 1
 n_curves = 4
-
-# ----------------------------------------------------------
-# begin code...
-# ----------------------------------------------------------
-
-
-xs, dx = np.linspace(0, length, nx, retstep=True)
-
-
-# ----------------------------------------------------------
-# analytical solution
-# ----------------------------------------------------------
 
 
 # ----------------------------------------------------------
 # numerical solution
 # ----------------------------------------------------------
+
+xs, dx = np.linspace(0, length, nx, retstep=True)
+
 time_steppers = ["bdf1", "bdf2", "cn"]
 time_stepper = time_steppers[time_stepper_index]
 
@@ -121,6 +112,7 @@ for time_steps in n_timesteps:
     new_error = None
     for t in range(1, time_steps + 1):
         if time_stepper == "bdf2" and t == 1:
+            # bootstrap if necessary
             u_next = timeStep(u_current, u_prev, dt, A, nu, "bdf1")
         else:
             u_next = timeStep(u_current, u_prev, dt, A, nu, time_stepper)
@@ -152,4 +144,4 @@ for time_steps in n_timesteps:
     plt.legend()
     plt.savefig(f"p1_{time_stepper}_{time_steps}.png")
 
-df.to_csv("p1_table.csv")
+df.to_csv(f"p1_table_{time_stepper}.csv")
