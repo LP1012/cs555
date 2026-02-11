@@ -3,6 +3,8 @@ import numpy.linalg
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import pandas as pd
+from scipy.sparse import csr_matrix, csr_array
+from scipy.sparse.linalg import spsolve
 
 plt.style.use("rc-general.mplstyle")
 
@@ -11,7 +13,8 @@ def create_space_fd_mat(n, dx):
     diag = np.ones(n) * 2
     bands = -np.ones(n - 1)
     A = np.diag(diag) + np.diag(bands, k=-1) + np.diag(bands, k=1)
-    return A * (1 / dx**2)
+    dense_mat = A * (1 / dx**2)
+    return csr_matrix(dense_mat)
 
 
 def timeStep(u_prev1, u_prev2, dt, A, nu, time_stepper):
@@ -31,15 +34,17 @@ def timeStep(u_prev1, u_prev2, dt, A, nu, time_stepper):
 def bdf1(u_prev, dt, A, nu):
     n = len(u_prev)
     mat = np.eye(n) + dt * nu * A
-    u_next = np.linalg.solve(mat, u_prev)
+    mat = csr_matrix(mat)
+    u_next = spsolve(mat, u_prev)
     return u_next
 
 
 def bdf2(u_prev1, u_prev2, dt, A, nu):
     n = len(u_prev1)
     mat = 3 * np.eye(n) + 2 * nu * dt * A
+    mat = csr_matrix(mat)
     vec = 4 * u_prev1 - u_prev2
-    u_next = np.linalg.solve(mat, vec)
+    u_next = spsolve(mat, vec)
     return u_next
 
 
@@ -48,7 +53,8 @@ def cn(u_prev, dt, A, nu):
     coeff = dt / 2 * nu
     w = (np.eye(n) - coeff * A) @ u_prev
     mat = np.eye(n) + coeff * A
-    u_next = np.linalg.solve(mat, w)
+    mat = csr_matrix(mat)
+    u_next = spsolve(mat, w)
     return u_next
 
 
@@ -68,8 +74,7 @@ def ic(index, x):
 length = 1
 nu = 0.2
 t_max = 1
-# nx = 1500 # uncomment for final figures
-nx = 20
+nx = 1500
 n_timesteps = [25, 50, 100, 200, 400, 800, 1600]
 time_stepper_index = 0
 ic_index = 1
