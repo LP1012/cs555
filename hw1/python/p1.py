@@ -1,5 +1,4 @@
 import numpy as np
-import numpy.linalg
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import pandas as pd
