@@ -4,6 +4,10 @@
 figure.figsize        : 8, 6
 figure.dpi            : 300
 savefig.dpi           : 300
+savefig.bbox          : tight
+savefig.pad_inches    : 0.1
+savefig.facecolor     : white
+savefig.edgecolor     : white
 
 ####################################
 # Fonts (font="serif", font_scale=1.2)
@@ -15,12 +19,17 @@ axes.labelsize        : 14
 xtick.labelsize       : 11
 ytick.labelsize       : 11
 legend.fontsize       : 11
+text.usetex           :	True
+
 
 ####################################
 # Lines
 ####################################
 lines.linewidth       : 2.5
 lines.markersize      : 6
+lines.solid_capstyle  : butt
+lines.solid_joinstyle : miter
+
 
 ####################################
 # Axes style ("ticks")
@@ -39,10 +48,11 @@ ytick.minor.size      : 3
 ####################################
 # Colorblind-friendly palette
 ####################################
-axes.prop_cycle : cycler('color', [
-    '#0173B2', '#DE8F05', '#029E73', '#D55E00',
-    '#CC78BC', '#CA9161', '#FBAFE4', '#949494'
-])
+# cmap, viridis is colorblind
+image.cmap:     magma
+
+# color cycler, Set2 (do not want to call explicitly this is just easier)
+axes.prop_cycle:    cycler("color", ["#66c2a5","#fc8d62","#8da0cb","#e78ac3","#a6d854","#ffd92f","#e5c494","#b3b3b3"])
 
 ####################################
 # Spines (sns.despine())
