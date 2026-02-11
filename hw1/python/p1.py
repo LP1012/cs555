@@ -76,9 +76,10 @@ nu = 0.2
 t_max = 1
 nx = 1500
 n_timesteps = [25, 50, 100, 200, 400, 800, 1600]
-time_stepper_index = 0
-ic_index = 1
-n_curves = 4
+
+time_stepper_index = 2  # 1=bdf1, 2=bdf2, 3=Crank-Nicholson
+ic_index = 1  # value of 1 or 2
+n_curves = 4  # number of curves in the plot
 
 
 # ----------------------------------------------------------
@@ -88,7 +89,7 @@ n_curves = 4
 xs, dx = np.linspace(0, length, nx, retstep=True)
 
 time_steppers = ["bdf1", "bdf2", "cn"]
-time_stepper = time_steppers[time_stepper_index]
+time_stepper = time_steppers[time_stepper_index - 1]
 
 n = nx - 2  # homogeneous dirichlet conditions, so we don't need to solve for them
 A = create_space_fd_mat(n, dx)
