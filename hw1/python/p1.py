@@ -3,7 +3,7 @@ import numpy.linalg
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import pandas as pd
-from scipy.sparse import csr_matrix, csr_array
+from scipy.sparse import csr_matrix, identity
 from scipy.sparse.linalg import spsolve
 
 plt.style.use("matplotlib.rc")
@@ -33,16 +33,14 @@ def timeStep(u_prev1, u_prev2, dt, A, nu, time_stepper):
 
 def bdf1(u_prev, dt, A, nu):
     n = len(u_prev)
-    mat = np.eye(n) + dt * nu * A
-    mat = csr_matrix(mat)
+    mat = identity(n) + dt * nu * A
     u_next = spsolve(mat, u_prev)
     return u_next
 
 
 def bdf2(u_prev1, u_prev2, dt, A, nu):
     n = len(u_prev1)
-    mat = 3 * np.eye(n) + 2 * nu * dt * A
-    mat = csr_matrix(mat)
+    mat = 3 * identity(n) + 2 * nu * dt * A
     vec = 4 * u_prev1 - u_prev2
     u_next = spsolve(mat, vec)
     return u_next
@@ -51,9 +49,8 @@ def bdf2(u_prev1, u_prev2, dt, A, nu):
 def cn(u_prev, dt, A, nu):
     n = len(u_prev)
     coeff = dt / 2 * nu
-    w = (np.eye(n) - coeff * A) @ u_prev
-    mat = np.eye(n) + coeff * A
-    mat = csr_matrix(mat)
+    w = (identity(n) - coeff * A) @ u_prev
+    mat = identity(n) + coeff * A
     u_next = spsolve(mat, w)
     return u_next
 
