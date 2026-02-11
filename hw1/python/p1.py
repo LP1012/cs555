@@ -2,6 +2,7 @@ import numpy as np
 import numpy.linalg
 import matplotlib as mpl
 import matplotlib.pyplot as plt
+import pandas as pd
 
 plt.style.use("rc-general.mplstyle")
 
@@ -68,7 +69,7 @@ length = 1
 nu = 0.2
 t_max = 1
 # nx = 1500 # uncomment for final figures
-nx = 10
+nx = 20
 n_timesteps = [25, 50, 100, 200, 400, 800, 1600]
 time_stepper_index = 1
 ic_index = 1
@@ -77,13 +78,31 @@ n_curves = 4
 # ----------------------------------------------------------
 # begin code...
 # ----------------------------------------------------------
-time_steppers = ["bdf1", "bdf2", "cn"]
-time_stepper = time_steppers[time_stepper_index]
+
 
 xs, dx = np.linspace(0, length, nx, retstep=True)
 
-n = nx - 2  # homogeneous dirchlet conditions, so we don't need to solve for them
+
+# ----------------------------------------------------------
+# analytical solution
+# ----------------------------------------------------------
+
+
+# ----------------------------------------------------------
+# numerical solution
+# ----------------------------------------------------------
+time_steppers = ["bdf1", "bdf2", "cn"]
+time_stepper = time_steppers[time_stepper_index]
+
+n = nx - 2  # homogeneous dirichlet conditions, so we don't need to solve for them
 A = create_space_fd_mat(n, dx)
+
+lam_ex = -nu * np.pi**2 / length
+
+# initialize output table
+df = pd.DataFrame(
+    {"Time Differencing": [], "nx": [], "nt": [], "Final Error": [], "Ratio": []}
+)
 
 
 for time_steps in n_timesteps:
@@ -97,7 +116,10 @@ for time_steps in n_timesteps:
     dt = t_max / time_steps
     u_prev = np.zeros(n)
     u_current = np.array([ic(ic_index, x) for x in xs[1:-1]])
-    for t in range(1, time_steps):
+
+    old_error = None
+    new_error = None
+    for t in range(1, time_steps + 1):
         if time_stepper == "bdf2" and t == 1:
             u_next = timeStep(u_current, u_prev, dt, A, nu, "bdf1")
         else:
@@ -107,7 +129,27 @@ for time_steps in n_timesteps:
             u_plot = np.append(prepend, 0)
             plt.plot(xs, u_plot, label=f"t = {t+1}", marker="o")
 
+        t_current = t * dt
+        u_exact = np.array(
+            [np.exp(t_current * lam_ex) * np.sin(np.pi * x) for x in xs[1:-1]]
+        )
+        error_vec = u_exact - u_next
+        # ratio = np.max(np.abs(error_vec)) / np.max(np.abs(u_exact))
+
+        old_error = new_error  # reassign
+        new_error = np.sqrt(
+            np.dot(error_vec, error_vec) / np.dot(u_exact, u_exact)
+        )  # new values
+
         u_prev = u_current
         u_current = u_next
+
+    ratio = old_error / new_error
+
+    new_table_row = [time_stepper, nx, time_steps, new_error, ratio]
+    df.loc[len(df)] = new_table_row
+
     plt.legend()
     plt.savefig(f"p1_{time_stepper}_{time_steps}.png")
+
+df.to_csv("p1_table.csv")
