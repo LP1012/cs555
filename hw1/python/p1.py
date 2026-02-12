@@ -70,10 +70,10 @@ def ic(index, x):
 length = 1
 nu = 0.2
 t_max = 1
-nx = 1500
+nx = 15000
 n_timesteps = [25, 50, 100, 200, 400, 800, 1600]
 
-time_stepper_index = 2  # 1=bfd1, 2=bfd2, 3=Crank-Nicholson
+time_stepper_index = 3  # 1=bfd1, 2=bfd2, 3=Crank-Nicholson
 ic_index = 1  # value of 1 or 2
 n_curves = 5  # number of curves in the plot
 
