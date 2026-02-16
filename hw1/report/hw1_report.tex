@@ -1,0 +1,36 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{xcolor}
+\usepackage{mdframed}
+\usepackage{amsmath}
+
+% copy cs555_hw_template.tex to cs555_hw_1_1.tex
+\newcommand{\yourname}{Your Name}
+\newcommand{\yournetid}{yournetid}
+\newcommand{\hwnum}{1}
+\newcommand{\probnum}{1}
+
+\newenvironment{problem}[2][Problem]
+    { \begin{mdframed}[backgroundcolor=gray!20] \textbf{#1 #2} \\}
+    {  \end{mdframed}}
+
+\newenvironment{solution}
+    {\textit{Solution:}}
+    {}
+
+\begin{document}
+\noindent
+\noindent\rule{\linewidth}{2pt}
+\large\textbf{\yourname} \hfill \textbf{CS 555: Homework \# \hwnum}   \\
+Email: \yournetid@illinois.edu \hfill Spring 2026\\
+\noindent\rule{\linewidth}{2pt}
+
+\begin{problem}{\probnum}
+\textcolor{red}{optional: summarize the problem} % TODO
+\end{problem}
+
+\begin{solution}
+% TODO
+\end{solution} 
+
+\end{document}
