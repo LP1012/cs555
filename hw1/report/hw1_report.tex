@@ -5,6 +5,9 @@
 \usepackage{amsmath}
 \usepackage{minted}
 \usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{subcaption}
+
 
 % copy cs555_hw_template.tex to cs555_hw_1_1.tex
 \newcommand{\yourname}{Liam Pohlmann, Alex Shaffer}
@@ -42,7 +45,61 @@ Email: \youremail \hfill Spring 2026\\
 \end{problem}
 
 \begin{solution}
-    % TODO
+    \begin{figure}[htbp]
+        \centering
+
+        \begin{subfigure}{0.45\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{../p1/ic1/p1_bfd2_25.png}
+            \caption{$N=25$}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.45\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{../p1/ic1/p1_bfd2_50}
+            \caption{$N=50$}
+        \end{subfigure}
+
+        \medskip
+
+        \begin{subfigure}{0.45\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{../p1/ic1/p1_bfd2_100}
+            \caption{$N=100$}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.45\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{../p1/ic1/p1_bfd2_200}
+            \caption{$N=200$}
+        \end{subfigure}
+
+        \medskip
+
+        \begin{subfigure}{0.45\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{../p1/ic1/p1_bfd2_400}
+            \caption{$N=400$}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}{0.45\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{../p1/ic1/p1_bfd2_800}
+            \caption{$N=800$}
+        \end{subfigure}
+
+        \medskip
+
+        \begin{subfigure}{0.6\textwidth}
+            \centering
+            \includegraphics[width=\linewidth]{../p1/ic1/p1_bfd2_1600}
+            \caption{$N=1600$}
+        \end{subfigure}
+
+        \caption{BDF2 solution for Problem 1 with sinusoidal initial condition and an increasing number of timesteps.}
+        \label{fig:p1_bdf2_convergence}
+    \end{figure}
+
 \end{solution}
 
 \begin{problem}
