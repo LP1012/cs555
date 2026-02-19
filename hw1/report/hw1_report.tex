@@ -47,6 +47,15 @@ Email: \youremail \hfill Spring 2026\\
 \end{problem}
 
 \begin{solution}
+    For both prescribed initial conditions, BFD1 (\cref{fig:p1-bdf1-ic1}, \cref{fig:p1-bdf1-ic2}) and BFD2 (\cref{fig:p1-bdf2-ic1} and \cref{fig:p1-bdf2-ic2}) perform well for a varying number of time steps.
+    Additionally, both methods converged to the expected ratio of 2 and 4 for BFD1 and BFD2, respectively (see \cref{tab:bfd1-sine}, \cref{tab:bdf1-cv} and \cref{tab:bfd2-sine}, \cref{tab:bfd2-cv}).
+    The Crank-Nicholson method performed well for the sinusoidal initial condition (\cref{fig:p1-cn-ic1}, \cref{tab:cn-sine}) but very poorly for the constant-value initial condition (\cref{fig:p1-cn-ic2}, \cref{tab:cn-cv}).
+    The solver appears to struggle resolving the solution on the boundaries, though this problem appeared to lessen as the number of timesteps increased.
+
+    \vspace{0.5cm}
+    \noindent
+    Code was written in \texttt{Python} and included in this report.
+    \clearpage
 
     \begin{figure}[htbp]
         \centering
@@ -475,14 +484,6 @@ Email: \youremail \hfill Spring 2026\\
     \end{table}
 
 
-    \section*{Discussion}
-    For both prescribed initial conditions, BFD1 (\cref{fig:p1-bdf1-ic1}, \cref{fig:p1-bdf1-ic2}) and BFD2 (\cref{fig:p1-bdf2-ic1} and \cref{fig:p1-bdf2-ic2}) perform well for a varying number of time steps.
-    Additionally, both methods converged to the expected ratio of 2 and 4 for BFD1 and BFD2, respectively (see \cref{tab:bfd1-sine}, \cref{tab:bdf1-cv} and \cref{tab:bfd2-sine}, \cref{tab:bfd2-cv}).
-    The Crank-Nicholson method performed well for the sinusoidal initial condition (\cref{fig:p1-cn-ic1}, \cref{tab:cn-sine}) but very poorly for the constant-value initial condition (\cref{fig:p1-cn-ic2}, \cref{tab:cn-cv}).
-    The solver appears to struggle resolving the solution on the boundaries, though this problem appeared to lessen as the number of timesteps increased.
-
-    Code was written in \texttt{Python} and included in the next few pages.
-
     \clearpage
     \inputminted[linenos]{python}{../p1/p1.py}
 
@@ -494,35 +495,35 @@ Email: \youremail \hfill Spring 2026\\
 
 
 \begin{solution}
-In part (a) we are asked to derive the asymptotic growth factor $G(\lambda \Delta t)$ for CN given that $\lambda \in \mathbb{R}$. 
-The formula for CN is:
+    In part (a) we are asked to derive the asymptotic growth factor $G(\lambda \Delta t)$ for CN given that $\lambda \in \mathbb{R}$.
+    The formula for CN is:
 
-\[
-u^{n+1} = u^n + \frac{\Delta t}{2} \lambda (u^n + u^{n+1})
-\]
+    \[
+        u^{n+1} = u^n + \frac{\Delta t}{2} \lambda (u^n + u^{n+1})
+    \]
 
-We look for the growth factor $G$ such that $u^{n+1} = G u^n$.
+    We look for the growth factor $G$ such that $u^{n+1} = G u^n$.
 
-\begin{align}
-u^{n+1} &= u^n + \frac{\Delta t}{2} \lambda (u^n + u^{n+1}) \\
-u^{n+1} - \frac{\Delta t}{2} \lambda u^{n+1} &= u^n + \frac{\Delta t}{2} \lambda u^n \\
-u^{n+1} \left(1 - \frac{\Delta t}{2} \lambda\right) &= u^n \left(1 + \frac{\Delta t}{2} \lambda\right) \\
-G &= \frac{1 + \frac{\Delta t}{2} \lambda}{1 - \frac{\Delta t}{2} \lambda}
-\end{align}
+    \begin{align}
+        u^{n+1}                                             & = u^n + \frac{\Delta t}{2} \lambda (u^n + u^{n+1})                      \\
+        u^{n+1} - \frac{\Delta t}{2} \lambda u^{n+1}        & = u^n + \frac{\Delta t}{2} \lambda u^n                                  \\
+        u^{n+1} \left(1 - \frac{\Delta t}{2} \lambda\right) & = u^n \left(1 + \frac{\Delta t}{2} \lambda\right)                       \\
+        G                                                   & = \frac{1 + \frac{\Delta t}{2} \lambda}{1 - \frac{\Delta t}{2} \lambda}
+    \end{align}
 
-As $\lambda \Delta t \to \infty$, we get:
-\[
-\lim_{\lambda \Delta t \to \infty} G = \lim_{\lambda \Delta t \to \infty} \frac{1 + \frac{\Delta t}{2} \lambda}{1 - \frac{\Delta t}{2} \lambda} = -1
-\]
+    As $\lambda \Delta t \to \infty$, we get:
+    \[
+        \lim_{\lambda \Delta t \to \infty} G = \lim_{\lambda \Delta t \to \infty} \frac{1 + \frac{\Delta t}{2} \lambda}{1 - \frac{\Delta t}{2} \lambda} = -1
+    \]
 
-In part (b) we are asked to plot the growth factors of the analytic solution, forward Euler, backward Euler, and CN for $\lambda \Delta t \in [-10, 0]$.
+    In part (b) we are asked to plot the growth factors of the analytic solution, forward Euler, backward Euler, and CN for $\lambda \Delta t \in [-10, 0]$.
 
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.8\textwidth]{../p2/growth_factors.png}
-    \caption{Growth factors for analytic solution, forward Euler, backward Euler, and Crank-Nicholson methods.}
-    \label{fig:growth-factors}
-\end{figure}
+    \begin{figure}[htbp]
+        \centering
+        \includegraphics[width=0.8\textwidth]{../p2/growth_factors.png}
+        \caption{Growth factors for analytic solution, forward Euler, backward Euler, and Crank-Nicholson methods.}
+        \label{fig:growth-factors}
+    \end{figure}
 
 \end{solution}
 
@@ -565,7 +566,7 @@ In part (b) we are asked to plot the growth factors of the analytic solution, fo
             u(p) = u;
         end;
     \end{minted}
-    This creates the table seen in Table~\ref{tab:part-1}, which, as follows from the logic presented in the problem description, is the exact same.
+    This creates the table seen in \cref{tab:part-1}, which, as follows from the logic presented in the problem description, is the exact same.
     The runtime was estimated to be 5.2506 seconds.
     Compared to an initial runtime of 44.548, this represents about an 8.5x performance improvement.
 
@@ -589,7 +590,7 @@ In part (b) we are asked to plot the growth factors of the analytic solution, fo
         \label{tab:part-1}
     \end{table}
 
-    (ii) 
+    (ii)
     Implementing the ADI algorithm saw an improvement in the runtime. We got a runtime of 0.4397 seconds as opposed the 5.2506 seconds from part (i).
     The matlab code provided fixes N, but varies $\Delta t$. If we vary N instead, we get the runtime scaling that we expect with ADI of $O(n_x n_y) = O(N^2)$.
     For the error scaling, both spatial and temporal errors contribute. Being careful to avoid saturation from one or the other, we can achieve the quadratic error scaling we expect.
@@ -607,7 +608,7 @@ In part (b) we are asked to plot the growth factors of the analytic solution, fo
             150        & 1.00E-02            & 120                            & 1.20          & 8.7628E-04                & 3.9983E+00     \\
             150        & 5.00E-03            & 240                            & 1.20          & 2.1909E-04                & 3.9996E+00     \\
             150        & 2.50E-03            & 480                            & 1.20          & 5.4775E-05                & 3.9999E+00     \\
-            150        & 1.25E-03            & 960                            & 1.20          & 1.3694E-05                & 4.0000E+00     \\     
+            150        & 1.25E-03            & 960                            & 1.20          & 1.3694E-05                & 4.0000E+00     \\
             \bottomrule
         \end{tabular}
         \caption{Part 2 Results}
