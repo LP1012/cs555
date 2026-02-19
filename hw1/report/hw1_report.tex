@@ -8,6 +8,7 @@
 \usepackage{booktabs}
 \usepackage{graphicx}
 \usepackage{subcaption}
+\usepackage{hyperref}
 \usepackage[noabbrev,capitalize]{cleveref}
 
 
@@ -40,6 +41,7 @@
 \noindent\rule{\linewidth}{2pt}
 \large\textbf{\yourname} \hfill \textbf{CS 555: Homework \# \hwnum}   \\
 Email: \youremail \hfill Spring 2026\\
+Code: \url{https://github.com/LP1012/cs555/tree/main/hw1} \\
 \noindent\rule{\linewidth}{2pt}
 
 \begin{problem}
@@ -54,7 +56,6 @@ Email: \youremail \hfill Spring 2026\\
 
     \vspace{0.5cm}
     \noindent
-    Code was written in \texttt{Python} and included in this report.
     \clearpage
 
     \begin{figure}[htbp]
@@ -484,9 +485,9 @@ Email: \youremail \hfill Spring 2026\\
     \end{table}
 
 
-    \clearpage
-    \inputminted[linenos]{python}{../p1/p1.py}
-    \clearpage
+    %\clearpage
+    %\inputminted[linenos]{python}{../p1/p1.py}
+    %\clearpage
 
 \end{solution}
 
@@ -518,7 +519,7 @@ Email: \youremail \hfill Spring 2026\\
     \]
 
     In part (b) we are asked to plot the growth factors of the analytic solution, forward Euler, backward Euler, and CN for $\lambda \Delta t \in [-10, 0]$.
-
+    This is shown in figure \cref{fig:growth-factors}.
     \begin{figure}[htbp]
         \centering
         \includegraphics[width=0.8\textwidth]{../p2/growth_factors.png}
@@ -627,7 +628,12 @@ Email: \youremail \hfill Spring 2026\\
         \label{tab:part-2}
     \end{table}
 
-
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.5\textwidth]{../p3/part_2/3ii.png}
+        \caption{Runtimes for ADI implementation of problem 3(ii) with varying number of spatial points, $N$.}
+        \label{fig:adi-timings}
+    \end{figure}
 
 \end{solution}
 
