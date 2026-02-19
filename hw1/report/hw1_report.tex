@@ -97,6 +97,27 @@ Email: \youremail \hfill Spring 2026\\
         \label{fig:p1-bdf1-ic1}
     \end{figure}
 
+
+    \begin{table}
+        \centering
+        \begin{tabular}{rrl}
+            \toprule
+            \textbf{nt} & \textbf{Relative L2 Error} & \textbf{Ratio}   \\
+            \midrule
+            25          & 7.6865E-02                 & None             \\
+            50          & 3.8698E-02                 & 1.98629517948916 \\
+            100         & 1.9415E-02                 & 1.99315253596478 \\
+            200         & 9.7243E-03                 & 1.99657867816914 \\
+            400         & 4.8663E-03                 & 1.99828978420901 \\
+            800         & 2.4342E-03                 & 1.99914584597233 \\
+            1600        & 1.2174E-03                 & 1.99957098611054 \\
+            \bottomrule
+        \end{tabular}
+        \caption{BFD1 Sinusoidal Initial Condition Output Table}
+        \label{tab:bfd1}
+    \end{table}
+
+
     \begin{figure}[htbp]
         \centering
 
@@ -146,6 +167,27 @@ Email: \youremail \hfill Spring 2026\\
         \caption{BDF2 solution for Problem 1 with sinusoidal initial condition and an increasing number of timesteps.}
         \label{fig:p1-bdf2-ic1}
     \end{figure}
+
+
+    \begin{table}
+        \centering
+        \begin{tabular}{rrl}
+            \toprule
+            \textbf{nt} & \textbf{Relative L2 Error} & \textbf{Ratio}   \\
+            \midrule
+            25          & 5.9969E-04                 & None             \\
+            50          & 1.4517E-04                 & 4.13089413461047 \\
+            100         & 3.5991E-05                 & 4.0335432954678  \\
+            200         & 8.9772E-06                 & 4.00916835052149 \\
+            400         & 2.2414E-06                 & 4.00523917104543 \\
+            800         & 5.6085E-07                 & 3.9963662517768  \\
+            1600        & 1.3945E-07                 & 4.02176317200121 \\
+            \bottomrule
+        \end{tabular}
+        \caption{BFD2 Sinusoidal Initial Condition Output Table}
+        \label{tab:bfd2}
+    \end{table}
+
 
     \begin{figure}[htbp]
         \centering
@@ -197,6 +239,28 @@ Email: \youremail \hfill Spring 2026\\
         \label{fig:p1-cn-ic1}
     \end{figure}
 
+
+    \begin{table}
+        \centering
+        \begin{tabular}{rrl}
+            \toprule
+            \textbf{nt} & \textbf{Relative L2 Error} & \textbf{Ratio}   \\
+            \midrule
+            25          & 1.0259E-03                 & None             \\
+            50          & 2.5639E-04                 & 4.00132896073532 \\
+            100         & 6.4090E-05                 & 4.00049420088793 \\
+            200         & 1.6019E-05                 & 4.0008429926872  \\
+            400         & 4.0023E-06                 & 4.00243566210429 \\
+            800         & 9.9742E-07                 & 4.01269685473481 \\
+            1600        & 2.4586E-07                 & 4.05692780622427 \\
+            \bottomrule
+        \end{tabular}
+        \caption{Crank-Nicholson Sinusoidal Initial Condition Output Table}
+        \label{tab:cn-sine}
+    \end{table}
+
+
+
     \begin{figure}[htbp]
         \centering
 
@@ -246,6 +310,27 @@ Email: \youremail \hfill Spring 2026\\
         \caption{BDF1 solution for Problem 1 with constant-value initial condition and an increasing number of timesteps.}
         \label{fig:p1-bdf1-ic2}
     \end{figure}
+
+
+    \begin{table}
+        \centering
+        \begin{tabular}{rrl}
+            \toprule
+            \textbf{nt} & \textbf{Relative L2 Error} & \textbf{Ratio}   \\
+            \midrule
+            25          & 7.6865E-02                 & None             \\
+            50          & 3.8698E-02                 & 1.98629527605244 \\
+            100         & 1.9415E-02                 & 1.99315272312291 \\
+            200         & 9.7243E-03                 & 1.9965790456925  \\
+            400         & 4.8663E-03                 & 1.99829052801913 \\
+            800         & 2.4342E-03                 & 1.99914733965774 \\
+            1600        & 1.2174E-03                 & 1.99957398870672 \\
+            \bottomrule
+        \end{tabular}
+        \caption{BFD1 Constant-Value Initial Condition Output Table}
+        \label{tab:bdf1-cv}
+    \end{table}
+
 
     \begin{figure}[htbp]
         \centering
@@ -297,6 +382,27 @@ Email: \youremail \hfill Spring 2026\\
         \label{fig:p1-bdf2-ic2}
     \end{figure}
 
+
+    \begin{table}
+        \centering
+        \begin{tabular}{rrl}
+            \toprule
+            \textbf{nt} & \textbf{Relative L2 Error} & \textbf{Ratio}   \\
+            \midrule
+            25          & 5.9968E-04                 & None             \\
+            50          & 1.4517E-04                 & 4.13097377163643 \\
+            100         & 3.5987E-05                 & 4.03384761961328 \\
+            200         & 8.9736E-06                 & 4.01033601077211 \\
+            400         & 2.2382E-06                 & 4.00931897266113 \\
+            800         & 5.5911E-07                 & 4.00312492433322 \\
+            1600        & 1.4345E-07                 & 3.89762898733195 \\
+            \bottomrule
+        \end{tabular}
+        \caption{BFD2 Constant-Value Initial Condition Output Table}
+        \label{tab:bfd2-cv}
+    \end{table}
+
+
     \begin{figure}[htbp]
         \centering
 
@@ -346,6 +452,27 @@ Email: \youremail \hfill Spring 2026\\
         \caption{Crank-Nicholson solution for Problem 1 with constant-value initial condition and an increasing number of timesteps.}
         \label{fig:p1-cn-ic2}
     \end{figure}
+
+
+    \begin{table}
+        \centering
+        \begin{tabular}{rrl}
+            \toprule
+            \textbf{nt} & \textbf{Relative L2 Error} & \textbf{Ratio}   \\
+            \midrule
+            25          & 6.7230E-01                 & None             \\
+            50          & 4.7317E-01                 & 1.42083681543755 \\
+            100         & 3.3144E-01                 & 1.42761547073308 \\
+            200         & 2.2994E-01                 & 1.44143618794027 \\
+            400         & 1.5639E-01                 & 1.47032932084702 \\
+            800         & 1.0198E-01                 & 1.53353211016495 \\
+            1600        & 6.0521E-02                 & 1.68499598728917 \\
+            \bottomrule
+        \end{tabular}
+        \caption{Crank-Nicholson Constant-Value Initial Condition Output Table}
+        \label{tab:cn-cv}
+    \end{table}
+
 
     \clearpage
     \inputminted[linenos]{python}{../p1/p1.py}
