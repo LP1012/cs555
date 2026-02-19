@@ -3,6 +3,7 @@
 \usepackage{xcolor}
 \usepackage{mdframed}
 \usepackage{amsmath}
+\usepackage{amsfonts}
 \usepackage{minted}
 \usepackage{booktabs}
 \usepackage{graphicx}
@@ -352,12 +353,41 @@ Email: \youremail \hfill Spring 2026\\
 \end{solution}
 
 \begin{problem}
-\textcolor{red}{DESCRIPTION HERE} % TODO
+\textcolor{red}{Growth Factors} % TODO
 \end{problem}
 
 
 \begin{solution}
-    % TODO
+In part (a) we are asked to derive the asymptotic growth factor $G(\lambda \Delta t)$ for CN given that $\lambda \in \mathbb{R}$. 
+The formula for CN is:
+
+\[
+u^{n+1} = u^n + \frac{\Delta t}{2} \lambda (u^n + u^{n+1})
+\]
+
+We look for the growth factor $G$ such that $u^{n+1} = G u^n$.
+
+\begin{align}
+u^{n+1} &= u^n + \frac{\Delta t}{2} \lambda (u^n + u^{n+1}) \\
+u^{n+1} - \frac{\Delta t}{2} \lambda u^{n+1} &= u^n + \frac{\Delta t}{2} \lambda u^n \\
+u^{n+1} \left(1 - \frac{\Delta t}{2} \lambda\right) &= u^n \left(1 + \frac{\Delta t}{2} \lambda\right) \\
+G &= \frac{1 + \frac{\Delta t}{2} \lambda}{1 - \frac{\Delta t}{2} \lambda}
+\end{align}
+
+As $\lambda \Delta t \to \infty$, we get:
+\[
+\lim_{\lambda \Delta t \to \infty} G = \lim_{\lambda \Delta t \to \infty} \frac{1 + \frac{\Delta t}{2} \lambda}{1 - \frac{\Delta t}{2} \lambda} = -1
+\]
+
+In part (b) we are asked to plot the growth factors of the analytic solution, forward Euler, backward Euler, and CN for $\lambda \Delta t \in [-10, 0]$.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{../p2/growth_factors.png}
+    \caption{Growth factors for analytic solution, forward Euler, backward Euler, and Crank-Nicholson methods.}
+    \label{fig:growth-factors}
+\end{figure}
+
 \end{solution}
 
 \begin{problem}
@@ -365,7 +395,7 @@ Email: \youremail \hfill Spring 2026\\
 \end{problem}
 
 \begin{solution}
-    The original code gives the output seen in Table~\ref{tab:p3-original} with a runtime of 33.164 seconds.
+    (i) The original code gives the output seen in Table~\ref{tab:p3-original} with a runtime of 33.164 seconds.
 
     \begin{table}[htb!]
         \centering
@@ -400,8 +430,8 @@ Email: \youremail \hfill Spring 2026\\
         end;
     \end{minted}
     This creates the table seen in Table~\ref{tab:part-1}, which, as follows from the logic presented in the problem description, is the exact same.
-    The runtime was estimated to be 3.9840 seconds.
-    Compared to an initial runtime of 33.164, this represents about an 8.3x performance improvement.
+    The runtime was estimated to be 5.2506 seconds.
+    Compared to an initial runtime of 44.548, this represents about an 8.5x performance improvement.
 
     \begin{table}[htb!]
         \centering
@@ -421,6 +451,31 @@ Email: \youremail \hfill Spring 2026\\
         \end{tabular}
         \caption{Part 1 Results}
         \label{tab:part-1}
+    \end{table}
+
+    (ii) 
+    Implementing the ADI algorithm saw an improvement in the runtime. We got a runtime of 0.4397 seconds as opposed the 5.2506 seconds from part (i).
+    The matlab code provided fixes N, but varies $\Delta t$. If we vary N instead, we get the runtime scaling that we expect with ADI of $O(n_x n_y) = O(N^2)$.
+    For the error scaling, both spatial and temporal errors contribute. Being careful to avoid saturation from one or the other, we can achieve the quadratic error scaling we expect.
+
+    \begin{table}[htb!]
+        \centering
+        \begin{tabular}{rrrrrr}
+            \toprule
+            \textbf{N} & \textbf{$\Delta t$} & \textbf{$n_\text{time steps}$} & \textbf{time} & \textbf{$L2$ Error Ratio} & \textbf{Ratio} \\
+            \midrule
+            150        & 1.50E-01            & 8                              & 1.20          & 1.9057E-01                & 5.2473E+00     \\
+            150        & 8.00E-02            & 15                             & 1.20          & 5.5571E-02                & 3.4294E+00     \\
+            150        & 4.00E-02            & 30                             & 1.20          & 1.3990E-02                & 3.9721E+00     \\
+            150        & 2.00E-02            & 60                             & 1.20          & 3.5036E-03                & 3.9931E+00     \\
+            150        & 1.00E-02            & 120                            & 1.20          & 8.7628E-04                & 3.9983E+00     \\
+            150        & 5.00E-03            & 240                            & 1.20          & 2.1909E-04                & 3.9996E+00     \\
+            150        & 2.50E-03            & 480                            & 1.20          & 5.4775E-05                & 3.9999E+00     \\
+            150        & 1.25E-03            & 960                            & 1.20          & 1.3694E-05                & 4.0000E+00     \\     
+            \bottomrule
+        \end{tabular}
+        \caption{Part 2 Results}
+        \label{tab:part-2}
     \end{table}
 
 

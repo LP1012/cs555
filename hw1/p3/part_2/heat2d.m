@@ -5,7 +5,7 @@
 
 hdr
 
-N=150;
+% N is expected to be set externally (e.g., from tst_h2d.m)
 m=N-1;
 
 Lx=1; Ly=1;
@@ -27,12 +27,22 @@ Iy = speye(m);
 [Xb,Yb]=ndgrid(xb,yb);
 
 %
-%  Set up standard CN operators
+%  Set up ADI operators (Peaceman-Rachford scheme)
+%
+%  Half-step 1: (I + dt/2 * Ax) * U* = (I - dt/2 * Ay) * U^n
+%  Half-step 2: (I + dt/2 * Ay) * U^(n+1) = (I - dt/2 * Ax) * U*
 %
 
+HLx = Ix + (dt/2)*Ax;   % Left operator for x-direction (implicit)
+HRx = Ix - (dt/2)*Ax;   % Right operator for x-direction (explicit)
+HLy = Iy + (dt/2)*Ay;   % Left operator for y-direction (implicit)
+HRy = Iy - (dt/2)*Ay;   % Right operator for y-direction (explicit)
 
-HL = kron(Iy,Ix) + (dt/2)*(kron(Iy,Ax)+kron(Ay,Ix));
-HR = kron(Iy,Ix) - (dt/2)*(kron(Iy,Ax)+kron(Ay,Ix));
+% Factor the tridiagonal matrices for efficient solves
+warning('off', 'all');
+[Lxf, Uxf] = lu(HLx);
+[Lyf, Uyf] = lu(HLy);
+warning('on', 'all');
 
 %
 %  Set up Exact Solution + RHS
@@ -50,13 +60,23 @@ lamx  = 2*(1-cos(thx))/(dx*dx);
 lamy  = 2*(1-cos(thy))/(dy*dy);
 lamxy = -nu*(lamx+lamy);              % Judge accuracy by discrete lambdas
 
-u = reshape(U,m*m,1);
-L = chol(HL,'lower');
+% ADI time-stepping loop
+% U is an m x m matrix where rows correspond to x and columns to y
 for istep=1:nstep; time=istep*dt;
-  u = L'\( L \ (HR*u));
-% u = HL \ (HR*u);                   %%% This is the _very_ slow way...
+  
+  % Half-step 1: implicit in x, explicit in y
+  % Solve (I + dt/2 * Ax) * Ustar = (I - dt/2 * Ay) * U^n
+  % Apply HRy along columns (y-direction), then solve HLx along rows (x-direction)
+  Rhs = U * HRy';                     % Apply (I - dt/2*Ay) to each row (y-direction)
+  Ustar = Uxf \ (Lxf \ Rhs);          % Solve (I + dt/2*Ax) for each column (x-direction)
+  
+  % Half-step 2: implicit in y, explicit in x
+  % Solve (I + dt/2 * Ay) * U^(n+1) = (I - dt/2 * Ax) * Ustar
+  % Apply HRx along rows (x-direction), then solve HLy along columns (y-direction)
+  Rhs = HRx * Ustar;                  % Apply (I - dt/2*Ax) to each column (x-direction)
+  U = (Uyf \ (Lyf \ Rhs'))';          % Solve (I + dt/2*Ay) for each row (y-direction)
+  
 end;
-U = reshape(u,m,m);
 
 Uex = exp(lamxy*time)*U0;
 Err = Uex-U;
