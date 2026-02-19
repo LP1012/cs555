@@ -486,6 +486,7 @@ Email: \youremail \hfill Spring 2026\\
 
     \clearpage
     \inputminted[linenos]{python}{../p1/p1.py}
+    \clearpage
 
 \end{solution}
 
@@ -589,6 +590,17 @@ Email: \youremail \hfill Spring 2026\\
         \caption{Part 1 Results}
         \label{tab:part-1}
     \end{table}
+
+    The number of spatial points was then varied and compared with the original code.
+    This experiment yielded the chart seen in \cref{fig:vary-n-comparison}.
+    As can be seen, the computation time for the given code grows much more rapidly than that of the modified code.
+
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.9\textwidth]{../p3/part_1/timings_chart.png}
+        \caption{Comparison of improved code in problem 3(i) with given MatLab code. Number of spatial points, $N$, was varied from 75 to 300 in increments of 75. Runtime is report in seconds.}
+        \label{fig:vary-n-comparison}
+    \end{figure}
 
     (ii)
     Implementing the ADI algorithm saw an improvement in the runtime. We got a runtime of 0.4397 seconds as opposed the 5.2506 seconds from part (i).
