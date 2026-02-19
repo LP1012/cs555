@@ -50,7 +50,7 @@ Email: \youremail \hfill Spring 2026\\
     For both prescribed initial conditions, BFD1 (\cref{fig:p1-bdf1-ic1}, \cref{fig:p1-bdf1-ic2}) and BFD2 (\cref{fig:p1-bdf2-ic1} and \cref{fig:p1-bdf2-ic2}) perform well for a varying number of time steps.
     Additionally, both methods converged to the expected ratio of 2 and 4 for BFD1 and BFD2, respectively (see \cref{tab:bfd1-sine}, \cref{tab:bdf1-cv} and \cref{tab:bfd2-sine}, \cref{tab:bfd2-cv}).
     The Crank-Nicholson method performed well for the sinusoidal initial condition (\cref{fig:p1-cn-ic1}, \cref{tab:cn-sine}) but very poorly for the constant-value initial condition (\cref{fig:p1-cn-ic2}, \cref{tab:cn-cv}).
-    The solver appears to struggle resolving the solution on the boundaries, though this problem appeared to lessen as the number of timesteps increased.
+    The solver appears to struggle resolving the solution on the boundaries, resulting in rapid oscillations, though this problem appeared to lessen as the number of timesteps increased.
 
     \vspace{0.5cm}
     \noindent
