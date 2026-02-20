@@ -10,6 +10,7 @@
 \usepackage{subcaption}
 \usepackage{hyperref}
 \usepackage[noabbrev,capitalize]{cleveref}
+\usepackage{placeins}
 
 
 % copy cs555_hw_template.tex to cs555_hw_1_1.tex
@@ -44,6 +45,7 @@ Email: \youremail \hfill Spring 2026\\
 Code: \url{https://github.com/LP1012/cs555/tree/main/hw1} \\
 \noindent\rule{\linewidth}{2pt}
 
+\FloatBarrier
 \begin{problem}
 \textcolor{red}{Convergence of BDF1, BDF2, and Crank-Nicholson.} % TODO
 \end{problem}
@@ -53,11 +55,6 @@ Code: \url{https://github.com/LP1012/cs555/tree/main/hw1} \\
     Additionally, both methods converged to the expected ratio of 2 and 4 for BFD1 and BFD2, respectively (see \cref{tab:bfd1-sine}, \cref{tab:bdf1-cv} and \cref{tab:bfd2-sine}, \cref{tab:bfd2-cv}).
     The Crank-Nicholson method performed well for the sinusoidal initial condition (\cref{fig:p1-cn-ic1}, \cref{tab:cn-sine}) but very poorly for the constant-value initial condition (\cref{fig:p1-cn-ic2}, \cref{tab:cn-cv}).
     The solver appears to struggle resolving the solution on the boundaries, resulting in rapid oscillations, though this problem appeared to lessen as the number of timesteps increased.
-
-    \vspace{0.5cm}
-    \noindent
-    Code was written in \texttt{Python} and included in this report.
-    \clearpage
 
     \begin{figure}[htbp]
         \centering
@@ -491,7 +488,9 @@ Code: \url{https://github.com/LP1012/cs555/tree/main/hw1} \\
     %\clearpage
 
 \end{solution}
+\FloatBarrier
 
+\FloatBarrier
 \begin{problem}
 \textcolor{red}{Growth Factors} % TODO
 \end{problem}
@@ -529,7 +528,9 @@ Code: \url{https://github.com/LP1012/cs555/tree/main/hw1} \\
     \end{figure}
 
 \end{solution}
+\FloatBarrier
 
+\FloatBarrier
 \begin{problem}
 \textcolor{red}{\texttt{symamd} speedup.} % TODO
 \end{problem}
@@ -637,5 +638,6 @@ Code: \url{https://github.com/LP1012/cs555/tree/main/hw1} \\
     \end{figure}
 
 \end{solution}
+\FloatBarrier
 
 \end{document}
